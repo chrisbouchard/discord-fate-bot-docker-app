@@ -3,7 +3,7 @@ version: "3.6"
 
 services:
   discord-fate-bot:
-    image: upliftinglemma/discord-fate-bot:latest
+    image: chrisbouchard/discord-fate-bot:latest
     environment:
       - DFB_BOT_TOKEN_FILE=/run/secrets/discord-fate-bot-token
       - DFB_LOG_LEVEL=${log.level}
