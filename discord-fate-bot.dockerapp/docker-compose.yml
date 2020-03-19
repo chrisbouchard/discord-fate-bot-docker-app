@@ -1,0 +1,16 @@
+# Compose File Version
+version: "3.6"
+
+services:
+  discord-fate-bot:
+    image: upliftinglemma/discord-fate-bot:latest
+    environment:
+      - DFB_BOT_TOKEN_FILE=/run/secrets/discord-fate-bot-token
+      - DFB_LOG_LEVEL=${log.level}
+    secrets:
+      - discord-fate-bot-token
+
+secrets:
+  discord-fate-bot-token:
+    external: true
+
