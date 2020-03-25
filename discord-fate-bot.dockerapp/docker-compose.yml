@@ -6,11 +6,11 @@ services:
     image: chrisbouchard/discord-fate-bot:latest
     environment:
       DFB_BOT_TOKEN_FILE: /run/secrets/token
-      DFB_DATABASE_URL: postgresql://postgres@database/discord_fate_bot?passfile=/run/secrets/db-password
+      DFB_DATABASE_URL: postgresql://postgres@database/discord_fate_bot?passfile=/run/secrets/pgpass
       DFB_LOG_LEVEL: ${log.level}
     secrets:
-      - source: discord-fate-bot-db-password
-        target: db-password
+      - source: discord-fate-bot-pgpass
+        target: pgpass
         mode: 0400
       - source: discord-fate-bot-token
         target: token
