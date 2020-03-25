@@ -40,3 +40,7 @@ secrets:
   discord-fate-bot-db-password:
     external: true
 
+volumes:
+  discord-fate-bot-db:
+    external: true
+
