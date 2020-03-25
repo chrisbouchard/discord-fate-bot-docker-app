@@ -5,9 +5,9 @@ services:
   app:
     image: chrisbouchard/discord-fate-bot:latest
     environment:
-      - DFB_BOT_TOKEN_FILE: /run/secrets/discord-fate-bot-token
-      - DFB_DATABASE_URL: postgresql://postgres@database/discord_fate_bot
-      - DFB_LOG_LEVEL: ${log.level}
+      DFB_BOT_TOKEN_FILE: /run/secrets/discord-fate-bot-token
+      DFB_DATABASE_URL: postgresql://postgres@database/discord_fate_bot
+      DFB_LOG_LEVEL: ${log.level}
     secrets:
       - discord-fate-bot-token
     deploy:
@@ -20,8 +20,8 @@ services:
   database:
     image: postgres:12
     environment:
-      - POSTGRES_DB: discord_fate_bot
-      - POSTGRES_PASSWORD_FILE: /run/secrets/discord-fate-bot-db-password
+      POSTGRES_DB: discord_fate_bot
+      POSTGRES_PASSWORD_FILE: /run/secrets/discord-fate-bot-db-password
     secrets:
       - discord-fate-bot-db-password
     volumes:
