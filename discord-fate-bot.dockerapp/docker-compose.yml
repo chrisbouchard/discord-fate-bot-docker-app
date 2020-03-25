@@ -42,9 +42,11 @@ services:
           - node.role == manager
 
 secrets:
-  discord-fate-bot-token:
-    external: true
   discord-fate-bot-db-password:
+    external: true
+  discord-fate-bot-pgpass:
+    external: true
+  discord-fate-bot-token:
     external: true
 
 volumes:
