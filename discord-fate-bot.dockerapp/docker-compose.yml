@@ -26,8 +26,10 @@ services:
 
   database:
     image: postgres:12
+    command: [ -c, password_encryption=scram-sha-256 ]
     environment:
       POSTGRES_DB: discord_fate_bot
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
       POSTGRES_PASSWORD_FILE: /run/secrets/db-password
     secrets:
       - source: discord-fate-bot-db-password
