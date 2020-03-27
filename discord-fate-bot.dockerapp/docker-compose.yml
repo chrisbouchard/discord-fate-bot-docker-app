@@ -7,9 +7,6 @@ services:
     environment:
       DFB_BOT_TOKEN_FILE: /run/secrets/token
       DFB_DATABASE_URL: postgresql://postgres@database/discord_fate_bot?passfile=/run/secrets/pgpass
-      DFB_MIGRATION_DATABASE_URL: postgresql://postgres@database/discord_fate_bot?passfile=/run/secrets/pgpass
-      # TODO: We should use something like DFB_LOG_INI_FILE to allow us to use a config and have more control
-      DFB_LOG_LEVEL: ${log.level}
     secrets:
       - source: discord-fate-bot-pgpass
         target: pgpass
