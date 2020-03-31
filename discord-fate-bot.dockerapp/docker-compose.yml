@@ -4,51 +4,58 @@ version: "3.6"
 services:
   app:
     image: chrisbouchard/discord-fate-bot:latest
-    environment:
-      DFB_BOT_TOKEN_FILE: /run/secrets/token
-      DFB_DATABASE_URL: postgresql://postgres@database/discord_fate_bot?passfile=/run/secrets/pgpass
-    secrets:
-      - source: discord-fate-bot-pgpass
-        target: pgpass
-        mode: 0400
-      - source: discord-fate-bot-token
-        target: token
-        mode: 0400
     deploy:
       restart_policy:
         condition: on-failure
         delay: 5s
         max_attempts: 3
         window: 120s
-
-  database:
-    image: postgres:12
     environment:
-      POSTGRES_DB: discord_fate_bot
-      POSTGRES_PASSWORD_FILE: /run/secrets/db-password
+      DFB_BOT_TOKEN_FILE: /run/secrets/token
+      DFB_MONGO_CONNECTION_URL: mongodb://root@mongo:27017
+      DFB_MONGO_PASSWORD_FILE: /run/secrets/mongo-password
+    networks:
+      - discord-fate-bot
     secrets:
-      - source: discord-fate-bot-db-password
-        target: db-password
+      - source: discord-fate-bot-mongo-password
+        target: mongo-password
         mode: 0400
-    volumes:
-      - type: volume
-        source: discord-fate-bot-db
-        target: /var/lib/postgresql/data
+      - source: discord-fate-bot-token
+        target: token
+        mode: 0400
+
+  mongo:
+    image: mongo:latest
     deploy:
       replicas: 1
       placement:
         constraints:
           - node.role == manager
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongo-password
+    networks:
+      - discord-fate-bot
+    secrets:
+      - source: discord-fate-bot-mongo-password
+        target: mongo-password
+        mode: 0400
+    volumes:
+      - type: volume
+        source: discord-fate-bot-mongo-data
+        target: /data/db
+
+networks:
+  discord-fate-bot:
+    driver: overlay
 
 secrets:
-  discord-fate-bot-db-password:
-    external: true
-  discord-fate-bot-pgpass:
+  discord-fate-bot-mongo-password:
     external: true
   discord-fate-bot-token:
     external: true
 
 volumes:
-  discord-fate-bot-db:
+  discord-fate-bot-mongo-data:
     external: true
 
